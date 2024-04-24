@@ -20,6 +20,7 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->id();
             $table->text('data')->nullable();
+            $table->integer('type_id');
             $table->string('type');
             $table->string('ip')->nullable();
             $table->timestamps();

@@ -12,6 +12,7 @@
     'menu' => [
         'forms' => 'Формы',
         'results' => 'Заявки',
+        'types' => 'Типы форм',
     ],
     'component' => [
         'name' => 'Форма',
@@ -20,11 +21,14 @@
             'rules' => 'Валидация'
         ],
     ],
-    'component_properties' => [
-        'rules_title' => 'Список полей',
-        'rules_group' => 'Валидация',
-        'attributes_title' => 'Список полей',
-        'attributes_group' => 'Атрибуты',
+    'controller' => [
+        'list_title' => 'Список элементов',
+        'updating' => 'Редактирование записи',
+        'creating' => 'Создание записи',
+        'previewing' => 'Просмотр записи',
+    ],
+    'buttons' => [
+        'create' => ''
     ],
     'validator' => [
         'messages' => [

@@ -1,7 +1,7 @@
 <?php Block::put('breadcrumb') ?>
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="<?= Backend::url('beltechsoft/forms/types') ?>">Список элементов</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Обновление</li>
+        <li class="breadcrumb-item"><a href="<?= Backend::url('beltechsoft/forms/types') ?>"><?php echo __('beltechsoft.forms::lang.controller.list_title')?></a></li>
+        <li class="breadcrumb-item active" aria-current="page"><?php echo __('beltechsoft.forms::lang.controller.updating')?></li>
     </ol>
 <?php Block::endPut() ?>
 

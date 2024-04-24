@@ -2,7 +2,7 @@
     <a
         href="<?= Backend::url('beltechsoft/forms/types/create') ?>"
         class="btn btn-primary oc-icon-plus">
-        Создать
+        <?= e(trans('backend::lang.form.create')) ?>
     </a>
 
     <button

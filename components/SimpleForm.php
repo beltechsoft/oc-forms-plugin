@@ -12,6 +12,8 @@ use October\Rain\Exception\ValidationException;
  */
 class SimpleForm extends ComponentBase
 {
+    private $formType = null;
+
     public function componentDetails()
     {
         return [
@@ -26,42 +28,47 @@ class SimpleForm extends ComponentBase
     public function defineProperties(): array
     {
         return [
-            'type' => [
-
-            ],
-            'rules' => [
-                'title' => 'beltechsoft.forms::lang.component_properties.rules_title',
-                'type' => 'dictionary',
-                'group' => 'beltechsoft.forms::lang.component_properties.rules_group',
-                'showExternalParam' => false,
-            ],
-            'attributes' => [
-                'title' => 'beltechsoft.forms::lang.component_properties.attributes_title',
-                'type' => 'dictionary',
-                'group' => 'beltechsoft.forms::lang.component_properties.attributes_group',
-                'showExternalParam' => false,
-            ],
+            'type' => [],
         ];
     }
 
-    public function onSubmitForm(){
+    public function onRun()
+    {
+        $this->addJs('/plugins/beltechsoft/forms/assets/js/beltechsoft-form.js', ['defer' => true]);
+    }
 
-        $type = Type::where('code', $this->property('type'))->first();
-  ;
-        if($type === null){
+    public function onSubmitForm(): void
+    {
+
+        $this->formType = Type::where('code', $this->property('code'))->first();
+        if($this->formType === null){
             throw new \ApplicationException('Form type not found');
         }
 
-        $rules = (array)$type->rules;
-        $messages = array_merge([
-            'required' => __('beltechsoft.forms::lang.validator.messages.required'),
-        ],(array)$type->messages);
-        $attributes = (array)$type->attributes;
+        $rules = $this->getParameterForValidator('rules');
+        $messages = array_merge($this->getDefaultMessages(),$this->getParameterForValidator('message'));
+        $attributes = $this->getParameterForValidator('attributes');
 
 
         $validator = Validator::make(post(), $rules, $messages, $attributes);
         if ($validator->fails()){
             throw new ValidationException($validator);
         }
+    }
+
+    private function getParameterForValidator(string $type): array
+    {
+        if($this->formType === null){
+            return [];
+        }
+
+        return array_pluck((array)$this->formType->{$type}, 'value', 'name');
+    }
+
+    private function getDefaultMessages(): array
+    {
+        return [
+            'required' => __('beltechsoft.forms::lang.validator.messages.required'),
+        ];
     }
 }

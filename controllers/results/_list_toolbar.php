@@ -1,9 +1,4 @@
 <div data-control="toolbar">
-    <a
-        href="<?= Backend::url('beltechsoft/forms/results/create') ?>"
-        class="btn btn-primary oc-icon-plus">
-        Создать
-    </a>
 
     <button
         class="btn btn-danger oc-icon-trash-o"

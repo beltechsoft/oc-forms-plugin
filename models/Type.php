@@ -27,6 +27,12 @@ class Type extends Model
 {
     public $table = 'beltechsoft_forms_types';
 
-    public $jsonable = ['rules'];
+    public $jsonable = [
+        'rules',
+        'message',
+        'attributes',
+        'options',
+    ];
+
 
 }

@@ -52,7 +52,6 @@ class Plugin extends PluginBase
                         'url' => \Backend\Facades\Backend::url('beltechsoft/forms/types'),
                         'permissions' => ['beltechsoft.forms.*'],
                     ],
-
                 ],
             ],
         ];

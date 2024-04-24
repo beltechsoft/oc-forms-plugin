@@ -6,12 +6,18 @@ columns:
     id:
         label: ID
         type: text
+    name:
+        label: beltechsoft.forms::lang.fields.name
+        type: text
+    code:
+        label: beltechsoft.forms::lang.fields.code
+        type: text
     updated_at:
-        label: Дата обновления
+        label: beltechsoft.forms::lang.fields.updated_at
         type: datetime
         format: d.m.Y h:i:s
     created_at:
-        label: Дата создания
+        label: beltechsoft.forms::lang.fields.created_at
         type: datetime
         format: d.m.Y h:i:s
 
