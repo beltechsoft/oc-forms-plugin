@@ -46,6 +46,13 @@ class Plugin extends PluginBase
                         'url' => \Backend\Facades\Backend::url('beltechsoft/forms/results'),
                         'permissions' => ['beltechsoft.forms.*'],
                     ],
+                    'types' => [
+                        'label' => 'beltechsoft.forms::lang.menu.types',
+                        'icon' => ' icon-cog',
+                        'url' => \Backend\Facades\Backend::url('beltechsoft/forms/types'),
+                        'permissions' => ['beltechsoft.forms.*'],
+                    ],
+
                 ],
             ],
         ];

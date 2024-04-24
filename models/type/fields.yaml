@@ -1,0 +1,53 @@
+# ===================================
+#  Form Field Definitions
+#  @link https://docs.octobercms.com/3.x/element/form-fields.html
+# ===================================
+
+tabs:
+    fields:
+        created_at:
+            label: beltechsoft.forms::lang.fields.created_at
+            type: text
+            format: d.m.Y h:i:s
+            readOnly: true
+            span: left
+            context:
+                - update
+        updated_at:
+            label: beltechsoft.forms::lang.fields.updated_at
+            type: text
+            format: d.m.Y h:i:s
+            readOnly: true
+            span: right
+            context:
+                - update
+        name:
+            label: beltechsoft.forms::lang.fields.name
+            span: left
+            required: 1
+            type: text
+        code:
+            label: beltechsoft.forms::lang.fields.code
+            span: right
+            required: 1
+            preset:
+                field: name
+                type: slug
+            type: text
+        rules:
+            type: datatable
+            label: Валидация
+            adding: true
+            deleting: true
+            columns:
+                name:
+                    type: string
+                    title: Имя
+                value:
+                    type: string
+                    title: Значение
+            recordsPerPage: false
+            searching: false
+            secondaryTabs: test
+
+
