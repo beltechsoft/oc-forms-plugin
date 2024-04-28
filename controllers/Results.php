@@ -2,6 +2,8 @@
 
 use BackendMenu;
 use Backend\Classes\Controller;
+use Beltechsoft\Forms\Models\Result;
+use Beltechsoft\Forms\Models\Type;
 
 /**
  *  Backend Controller
@@ -31,13 +33,54 @@ class Results extends Controller
      */
     public $requiredPermissions = ['Beltechsoft.Forms.results'];
 
-    /**
-     * __construct the controller
-     */
+    private $type = null;
     public function __construct()
     {
         parent::__construct();
 
-        BackendMenu::setContext('Beltechsoft.Forms', 'forms', 'results');
+        $this->type = Type::query()->where('code', get('code'))->first();
+        BackendMenu::setContext('Beltechsoft.Forms', 'forms', $this->type ?  $this->type->code : 'results');
+
+    }
+
+    public function listExtendQuery($obQuery): void
+    {
+        if($this->type){
+            $obQuery->where('type_id', $this->type->id);
+        }
+    }
+
+    public function listOverrideRecordUrl($record, $definition = null)
+    {
+        if ($this->type) {
+            return 'beltechsoft/forms/results/preview/1?code=' . $this->type->code;
+        }
+    }
+
+    public function listExtendColumns($list)
+    {
+
+        $fields = Result::query()->where('type_id', $this->type->id)->get()->pluck('data')->map(function ($data) {
+            return array_keys($data);
+        })->flatten()->unique()->take(5);
+
+        foreach ($fields as $field){
+            $list->addColumns([
+                'data['.$field.']' => [
+                    'label' => $field,
+                    'type' => 'text',
+                    'searchable' => false,
+                    'invisible' => false,
+                    'sortable' => true,
+                    'order' => 200,
+                ]
+            ]);
+        }
+
+    }
+
+    public function preview($recordId = null, $context = null){
+        Result::query()->where('id', $recordId)->update(['unread' => false]);
+        parent::preview($recordId, $context);
     }
 }

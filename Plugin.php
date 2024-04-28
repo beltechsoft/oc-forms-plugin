@@ -2,6 +2,8 @@
 
 use Backend;
 use Beltechsoft\Forms\Components\SimpleForm;
+use Beltechsoft\Forms\Models\Result;
+use Beltechsoft\Forms\Models\Type;
 use System\Classes\PluginBase;
 
 /**
@@ -33,28 +35,40 @@ class Plugin extends PluginBase
 
     public function registerNavigation(): array
     {
-        return [
+        $navigation = [
             'forms' => [
                 'label' => 'beltechsoft.forms::lang.menu.forms',
                 'icon' => 'icon-address-book',
                 'permissions' => ['beltechsoft.forms.*'],
                 'order' => 200,
-                'sideMenu' => [
-                    'result' => [
-                        'label' => 'beltechsoft.forms::lang.menu.results',
-                        'icon' => 'icon-database',
-                        'url' => \Backend\Facades\Backend::url('beltechsoft/forms/results'),
-                        'permissions' => ['beltechsoft.forms.*'],
-                    ],
-                    'types' => [
-                        'label' => 'beltechsoft.forms::lang.menu.types',
-                        'icon' => ' icon-cog',
-                        'url' => \Backend\Facades\Backend::url('beltechsoft/forms/types'),
-                        'permissions' => ['beltechsoft.forms.*'],
-                    ],
-                ],
+                'sideMenu' => [],
             ],
         ];
+        $types = Type::query()->get();
+        if($types->isNotEmpty()){
+            $navigation['forms']['sideMenu']['section-start'] = ['itemType' => 'ruler'];
+
+            foreach ($types as $type){
+                $navigation['forms']['sideMenu'][$type->code] = [
+                    'counter' => Result::query()->where('type_id', $type->id)->where('unread', true)->count(),
+                    'counterLabel' => 12,
+                    'label' => $type->name,
+                    'icon' => 'icon-database',
+                    'url' => \Backend\Facades\Backend::url('beltechsoft/forms/results?code=' . $type->code),
+                ];
+            }
+
+            $navigation['forms']['sideMenu']['section-end'] = ['itemType' => 'ruler'];
+        }
+
+        $navigation['forms']['sideMenu']['types'] = [
+            'label' => 'beltechsoft.forms::lang.menu.types',
+            'icon' => ' icon-cog',
+            'url' => \Backend\Facades\Backend::url('beltechsoft/forms/types'),
+            'permissions' => ['beltechsoft.forms.*'],
+        ];
+
+        return $navigation;
     }
 
 }

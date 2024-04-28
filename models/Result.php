@@ -25,18 +25,18 @@ use Model;
   */
 class Result extends Model
 {
-    use \October\Rain\Database\Traits\Validation;
-
     public $table = 'beltechsoft_forms_results';
 
-    public $implement = [];
-
-    public $rules = [];
-
-    public $timestamps = true;
-
-    public $attachOne = [
+    public $fillable = [
+        'type_id',
+        'data'
     ];
-    public $attachMany = [
+
+    public $jsonable = [
+        'data',
+    ];
+
+    public $belongsTo = [
+        'type' => Type::class,
     ];
 }

@@ -1,5 +1,6 @@
 <?php namespace Beltechsoft\Forms\Components;
 
+use Beltechsoft\Forms\Models\Result;
 use Beltechsoft\Forms\Models\Type;
 use Cms\Classes\ComponentBase;
 use Illuminate\Support\Facades\Request;
@@ -12,7 +13,7 @@ use October\Rain\Exception\ValidationException;
  */
 class SimpleForm extends ComponentBase
 {
-    private $formType = null;
+    private $type = null;
 
     public function componentDetails()
     {
@@ -40,35 +41,54 @@ class SimpleForm extends ComponentBase
     public function onSubmitForm(): void
     {
 
-        $this->formType = Type::where('code', $this->property('code'))->first();
-        if($this->formType === null){
+        $this->type = Type::where('code', $this->property('code'))->first();
+        if($this->type === null){
             throw new \ApplicationException('Form type not found');
         }
 
-        $rules = $this->getParameterForValidator('rules');
-        $messages = array_merge($this->getDefaultMessages(),$this->getParameterForValidator('message'));
+        $rules = $this->getDefaultRules() + $this->getParameterForValidator('rules');
+        $messages = $this->getDefaultMessages() + $this->getParameterForValidator('message');
         $attributes = $this->getParameterForValidator('attributes');
+        $post = post();
 
 
-        $validator = Validator::make(post(), $rules, $messages, $attributes);
+        $validator = Validator::make($post, $rules, $messages, $attributes);
         if ($validator->fails()){
             throw new ValidationException($validator);
         }
+
+        $result = new Result();
+        $result->fill(['type_id' => $this->type->id, 'data' => array_except($post, ['_token'])]);
+        $result->save();
     }
 
     private function getParameterForValidator(string $type): array
     {
-        if($this->formType === null){
+        if($this->type === null){
             return [];
         }
 
-        return array_pluck((array)$this->formType->{$type}, 'value', 'name');
+        return array_filter(array_pluck((array)$this->type->{$type}, 'value', 'name'));
     }
 
     private function getDefaultMessages(): array
     {
-        return [
+        $messages = [];
+        if($this->type->check_form_token){
+            $messages['_token.required'] = 'Are you a bot?';
+        }
+
+        return $messages + [
             'required' => __('beltechsoft.forms::lang.validator.messages.required'),
         ];
+    }
+
+    private function getDefaultRules(): array
+    {
+        $rules = [];
+        if($this->type->check_form_token){
+            $rules['_token'] = 'required';
+        }
+        return $rules;
     }
 }

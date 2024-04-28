@@ -3,7 +3,7 @@
 # ===================================
 
 # Record name
-name: 
+name:
 
 # Model Form Field configuration
 form: $/beltechsoft/forms/models/result/fields.yaml
@@ -16,16 +16,16 @@ defaultRedirect: beltechsoft/forms/results
 
 # Create page
 create:
-    title: backend::lang.form.create_title
+    title: beltechsoft.forms::lang.controller.creating
     redirect: beltechsoft/forms/results/update/:id
     redirectClose: beltechsoft/forms/results
 
 # Update page
 update:
-    title: backend::lang.form.update_title
+    title: beltechsoft.forms::lang.controller.updating
     redirect: beltechsoft/forms/results
     redirectClose: beltechsoft/forms/results
 
 # Preview page
 preview:
-    title: backend::lang.form.preview_title
+    title: beltechsoft.forms::lang.controller.previewing

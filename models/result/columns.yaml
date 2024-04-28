@@ -6,4 +6,8 @@ columns:
     id:
         label: ID
         type: text
+    created_at:
+        label: Дата создания
+        type: datetime
+        format: d.m.Y h:i:s
 

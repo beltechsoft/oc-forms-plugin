@@ -21,6 +21,7 @@ tabs:
             span: right
             context:
                 - update
+
         name:
             label: beltechsoft.forms::lang.fields.name
             span: left

@@ -20,9 +20,10 @@ return new class extends Migration
             $table->engine = 'InnoDB';
             $table->id();
             $table->text('data')->nullable();
-            $table->integer('type_id');
-            $table->string('type');
+            $table->integer('type_id')->nullable();
+            $table->string('type')->nullable();
             $table->string('ip')->nullable();
+            $table->boolean('unread')->default(1);
             $table->timestamps();
         });
     }

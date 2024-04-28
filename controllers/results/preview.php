@@ -8,7 +8,26 @@
 <?php if (!$this->fatalError): ?>
 
     <div class="form-preview">
-        <?= $this->formRenderPreview() ?>
+        <div class="control-table">
+            <div class="table-content">
+                <table class="table data mb-0">
+                    <tbody>
+                        <?php $model = $this->widget->form->model ?>
+                            <tr>
+                                <th>ID</th>
+                                <th><?php echo $model->id?></th>
+                            </tr>
+                        <?php foreach ($model->data as $key => $value):?>
+                            <tr>
+                                <th><?php echo $key?></th>
+                                <th><?php echo $value?></th>
+                            </tr>
+                        <?php endforeach; ?>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 <?php else: ?>
