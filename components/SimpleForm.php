@@ -30,12 +30,19 @@ class SimpleForm extends ComponentBase
     {
         return [
             'type' => [],
+          //  'partial_form' => '',
         ];
+    }
+
+    public function onRender()
+    {
+        return $this->renderPartial('forms/callback', ['__SELF__' => $this->alias]);
     }
 
     public function onRun()
     {
         $this->addJs('/plugins/beltechsoft/forms/assets/js/beltechsoft-form.js', ['defer' => true]);
+      //  return '$this->renderPartial($partial)';
     }
 
     public function onSubmitForm(): void
