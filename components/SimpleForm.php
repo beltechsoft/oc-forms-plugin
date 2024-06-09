@@ -36,7 +36,7 @@ class SimpleForm extends ComponentBase
 
     public function onRender()
     {
-        return $this->renderPartial('forms/callback', ['__SELF__' => $this->alias]);
+        return $this->renderPartial($this->property('partial_form'), ['__SELF__' => $this->alias]);
     }
 
     public function onRun()
