@@ -6,7 +6,8 @@
 <?php Block::endPut() ?>
 
 <?php if (!$this->fatalError): ?>
-
+    <?php $fields = array_filter(array_pluck((array)$this->type->fields, 'value', 'name'))?>
+    <?php dump($fields);?>
     <div class="form-preview">
         <div class="control-table">
             <div class="table-content">
@@ -19,7 +20,7 @@
                             </tr>
                         <?php foreach ($model->data as $key => $value):?>
                             <tr>
-                                <th><?php echo $key?></th>
+                                <th><?php echo array_get($fields, $key, $key)?></th>
                                 <th><?php echo $value?></th>
                             </tr>
                         <?php endforeach; ?>

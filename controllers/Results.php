@@ -33,7 +33,7 @@ class Results extends Controller
      */
     public $requiredPermissions = ['Beltechsoft.Forms.results'];
 
-    private $type = null;
+    public $type = null;
     public function __construct()
     {
         parent::__construct();
@@ -46,14 +46,14 @@ class Results extends Controller
     public function listExtendQuery($obQuery): void
     {
         if($this->type){
-            $obQuery->where('type_id', $this->type->id);
+            $obQuery->orderBy('id', 'desc')->where('type_id', $this->type->id);
         }
     }
 
     public function listOverrideRecordUrl($record, $definition = null)
     {
         if ($this->type) {
-            return 'beltechsoft/forms/results/preview/1?code=' . $this->type->code;
+            return sprintf('beltechsoft/forms/results/preview/%d?code=%s', $record->id, $this->type->code);
         }
     }
 

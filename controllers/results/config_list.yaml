@@ -9,7 +9,7 @@ list: $/beltechsoft/forms/models/result/columns.yaml
 modelClass: Beltechsoft\Forms\Models\Result
 
 # List Title
-title: Manage 
+title: Manage
 
 # Link URL for each record
 recordUrl: beltechsoft/forms/results/update/:id
@@ -32,7 +32,7 @@ showSorting: true
 # Default sorting column
 defaultSort:
     column: id
-    direction: asc
+    direction: desc
 
 # Display checkboxes next to each record
 showCheckboxes: true

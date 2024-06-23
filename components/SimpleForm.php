@@ -13,7 +13,7 @@ use October\Rain\Exception\ValidationException;
  */
 class SimpleForm extends ComponentBase
 {
-    private $type = null;
+    private ?Type $type = null;
 
     public function componentDetails()
     {
@@ -30,28 +30,29 @@ class SimpleForm extends ComponentBase
     {
         return [
             'type' => [],
-          //  'partial_form' => '',
+            'partial_form' => [],
         ];
     }
 
     public function onRender()
     {
-        return $this->renderPartial($this->property('partial_form'), ['__SELF__' => $this->alias]);
+        return $this->renderPartial($this->property('partial_form'), ['__SELF__' => $this->alias, 'type' => $this->type]);
     }
 
     public function onRun()
     {
+        $this->type = Type::where('code', $this->property('type'))->first();
+        if($this->type === null){
+            throw new \ApplicationException('Form type not found');
+        }
+
         $this->addJs('/plugins/beltechsoft/forms/assets/js/beltechsoft-form.js', ['defer' => true]);
-      //  return '$this->renderPartial($partial)';
     }
 
     public function onSubmitForm(): void
     {
 
-        $this->type = Type::where('code', $this->property('code'))->first();
-        if($this->type === null){
-            throw new \ApplicationException('Form type not found');
-        }
+
 
         $rules = $this->getDefaultRules() + $this->getParameterForValidator('rules');
         $messages = $this->getDefaultMessages() + $this->getParameterForValidator('message');

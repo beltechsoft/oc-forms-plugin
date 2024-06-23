@@ -35,20 +35,43 @@ tabs:
                 field: name
                 type: slug
             type: text
-        rules:
-            type: datatable
-            label: Валидация
-            adding: true
-            deleting: true
-            columns:
-                name:
-                    type: string
-                    title: Имя
-                value:
-                    type: string
-                    title: Значение
-            recordsPerPage: false
-            searching: false
-            secondaryTabs: test
+
+secondaryTabs:
+        fields:
+            rules:
+                type: datatable
+                adding: true
+                deleting: true
+                columns:
+                    name:
+                        type: string
+                        title: Имя
+                    value:
+                        type: string
+                        title: Значение
+                recordsPerPage: false
+                searching: false
+                tab: Валидация
+            fields:
+                type: datatable
+                adding: true
+                deleting: true
+                columns:
+                    name:
+                        type: string
+                        title: Имя
+                    label:
+                        type: string
+                        title: Значение
+                    type:
+                        type: dropdown
+                        title: Тип
+                        default: text
+                        options:
+                            input:text: input:text
+                            textarea: textarea
+                recordsPerPage: false
+                searching: false
+                tab: Поля
 
 
