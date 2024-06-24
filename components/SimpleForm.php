@@ -36,11 +36,20 @@ class SimpleForm extends ComponentBase
 
     public function onRender()
     {
-        return $this->renderPartial($this->property('partial_form'), ['__SELF__' => $this->alias, 'type' => $this->type]);
+        dump('onRender');
+        return $this->renderPartial($this->property('partial_form'),
+            [
+                '__SELF__' => $this->alias,
+                'type' => $this->type,
+                'rules' => $this->getDefaultRules() + $this->getParameterForValidator('rules'),
+                'fields' => $this->getFields(),
+            ]);
     }
 
     public function onRun()
     {
+        dump('onRuns');
+
         $this->type = Type::where('code', $this->property('type'))->first();
         if($this->type === null){
             throw new \ApplicationException('Form type not found');
@@ -51,8 +60,6 @@ class SimpleForm extends ComponentBase
 
     public function onSubmitForm(): void
     {
-
-
 
         $rules = $this->getDefaultRules() + $this->getParameterForValidator('rules');
         $messages = $this->getDefaultMessages() + $this->getParameterForValidator('message');
@@ -94,9 +101,20 @@ class SimpleForm extends ComponentBase
     private function getDefaultRules(): array
     {
         $rules = [];
+        dump($this->type);
         if($this->type->check_form_token){
             $rules['_token'] = 'required';
         }
         return $rules;
+    }
+
+    private function getFields(){
+        $result = [];
+        $rules = $this->getDefaultRules() + $this->getParameterForValidator('rules');
+        foreach ($this->type->fields as $field){
+            $result[$field['name']] = $field + ['required' => key_exists($field['name'], $rules)];
+        }
+
+        return $result;
     }
 }
