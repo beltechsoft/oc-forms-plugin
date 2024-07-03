@@ -23,6 +23,15 @@ class SimpleForm extends ComponentBase
         ];
     }
 
+    public function init()
+    {
+
+        $this->type = Type::where('code', $this->property('type'))->first();
+        if($this->type === null){
+            throw new \ApplicationException('Form type not found');
+        }
+    }
+
     /**
      * @link https://docs.octobercms.com/3.x/element/inspector-types.html
      */
@@ -44,12 +53,10 @@ class SimpleForm extends ComponentBase
             ]);
     }
 
+
     public function onRun()
     {
-        $this->type = Type::where('code', $this->property('type'))->first();
-        if($this->type === null){
-            throw new \ApplicationException('Form type not found');
-        }
+
 
         $this->addJs('/plugins/beltechsoft/forms/assets/js/beltechsoft-form.js', ['defer' => true]);
     }
@@ -84,21 +91,22 @@ class SimpleForm extends ComponentBase
 
     private function getDefaultMessages(): array
     {
-        $messages = [];
-        if($this->type->check_form_token){
+        $messages = [
+            'required' => __('beltechsoft.forms::lang.validator.messages.required'),
+        ];
+
+        if(array_get($this->type, 'options.check_form_token')){
             $messages['_token.required'] = 'Are you a bot?';
         }
 
-        return $messages + [
-            'required' => __('beltechsoft.forms::lang.validator.messages.required'),
-        ];
+        return $messages;
     }
 
     private function getDefaultRules(): array
     {
         $rules = [];
 
-        if($this->type->check_form_token){
+        if(array_get($this->type, 'options.check_form_token')){
             $rules['_token'] = 'required';
         }
         return $rules;
