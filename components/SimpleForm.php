@@ -108,7 +108,8 @@ class SimpleForm extends ComponentBase
         $result = [];
         $rules = $this->getDefaultRules() + $this->getParameterForValidator('rules');
 
-        foreach ($this->type->fields as $field){
+
+        foreach ((array)$this->type->fields as $field){
             $result[$field['name']] = $field + ['required' => key_exists($field['name'], $rules)];
         }
 
