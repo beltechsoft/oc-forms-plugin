@@ -73,5 +73,15 @@ secondaryTabs:
                 recordsPerPage: false
                 searching: false
                 tab: Поля
+            options:
+                type: nestedform
+                tab: Настройки
+                form:
+                    fields:
+                        check_form_token:
+                            label: Проверить токен
+                            default: false
+                            type: switch
+
 
 

@@ -23,6 +23,15 @@ class SimpleForm extends ComponentBase
         ];
     }
 
+    public function init()
+    {
+
+        $this->type = Type::where('code', $this->property('type'))->first();
+        if($this->type === null){
+            throw new \ApplicationException('Form type not found');
+        }
+    }
+
     /**
      * @link https://docs.octobercms.com/3.x/element/inspector-types.html
      */
@@ -44,6 +53,7 @@ class SimpleForm extends ComponentBase
             ]);
     }
 
+<<<<<<< HEAD
     public function init()
     {
         $this->type = Type::where('code', $this->property('type'))->first();
@@ -53,6 +63,13 @@ class SimpleForm extends ComponentBase
     }
     public function onRun()
     {
+=======
+
+    public function onRun()
+    {
+
+
+>>>>>>> f762d57367af4ea14518a29baa56d5a9551e9825
         $this->addJs('/plugins/beltechsoft/forms/assets/js/beltechsoft-form.js', ['defer' => true]);
     }
 
@@ -86,21 +103,22 @@ class SimpleForm extends ComponentBase
 
     private function getDefaultMessages(): array
     {
-        $messages = [];
-        if($this->type->check_form_token){
+        $messages = [
+            'required' => __('beltechsoft.forms::lang.validator.messages.required'),
+        ];
+
+        if(array_get($this->type, 'options.check_form_token')){
             $messages['_token.required'] = 'Are you a bot?';
         }
 
-        return $messages + [
-            'required' => __('beltechsoft.forms::lang.validator.messages.required'),
-        ];
+        return $messages;
     }
 
     private function getDefaultRules(): array
     {
         $rules = [];
 
-        if($this->type->check_form_token){
+        if(array_get($this->type, 'options.check_form_token')){
             $rules['_token'] = 'required';
         }
         return $rules;
@@ -110,7 +128,8 @@ class SimpleForm extends ComponentBase
         $result = [];
         $rules = $this->getDefaultRules() + $this->getParameterForValidator('rules');
 
-        foreach ($this->type->fields as $field){
+
+        foreach ((array)$this->type->fields as $field){
             $result[$field['name']] = $field + ['required' => key_exists($field['name'], $rules)];
         }
 
