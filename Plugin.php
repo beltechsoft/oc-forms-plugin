@@ -35,6 +35,7 @@ class Plugin extends PluginBase
 
     public function registerNavigation(): array
     {
+
         $navigation = [
             'forms' => [
                 'label' => 'beltechsoft.forms::lang.menu.forms',

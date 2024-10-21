@@ -21,7 +21,7 @@ return new class extends Migration
             $table->id();
             $table->text('name')->nullable();
             $table->text('code')->nullable();
-            $table->boolean('check_form_token')->default(1);
+            $table->boolean('check_form_token')->default(0);
             $table->text('rules')->nullable();
             $table->text('fields')->nullable();
             $table->text('messages')->nullable();

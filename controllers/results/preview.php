@@ -6,8 +6,7 @@
 <?php Block::endPut() ?>
 
 <?php if (!$this->fatalError): ?>
-    <?php $fields = array_filter(array_pluck((array)$this->type->fields, 'value', 'name'))?>
-    <?php dump($fields);?>
+    <?php $fields = array_filter(array_pluck((array)$this->type->fields, 'label', 'name'))?>
     <div class="form-preview">
         <div class="control-table">
             <div class="table-content">

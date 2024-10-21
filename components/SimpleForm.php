@@ -19,7 +19,7 @@ class SimpleForm extends ComponentBase
     {
         return [
             'name' => 'beltechsoft.forms::lang.component.name',
-            'description' => 'beltechsoft.forms::lang.component.description'
+            'description' => 'beltechsoft.forms::lang.component.description',
         ];
     }
 
@@ -44,13 +44,15 @@ class SimpleForm extends ComponentBase
             ]);
     }
 
-    public function onRun()
+    public function init()
     {
         $this->type = Type::where('code', $this->property('type'))->first();
         if($this->type === null){
             throw new \ApplicationException('Form type not found');
         }
-
+    }
+    public function onRun()
+    {
         $this->addJs('/plugins/beltechsoft/forms/assets/js/beltechsoft-form.js', ['defer' => true]);
     }
 
