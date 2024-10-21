@@ -23,15 +23,6 @@ class SimpleForm extends ComponentBase
         ];
     }
 
-    public function init()
-    {
-
-        $this->type = Type::where('code', $this->property('type'))->first();
-        if($this->type === null){
-            throw new \ApplicationException('Form type not found');
-        }
-    }
-
     /**
      * @link https://docs.octobercms.com/3.x/element/inspector-types.html
      */
