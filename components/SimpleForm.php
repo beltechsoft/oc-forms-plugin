@@ -53,7 +53,6 @@ class SimpleForm extends ComponentBase
             ]);
     }
 
-<<<<<<< HEAD
     public function init()
     {
         $this->type = Type::where('code', $this->property('type'))->first();
@@ -63,13 +62,6 @@ class SimpleForm extends ComponentBase
     }
     public function onRun()
     {
-=======
-
-    public function onRun()
-    {
-
-
->>>>>>> f762d57367af4ea14518a29baa56d5a9551e9825
         $this->addJs('/plugins/beltechsoft/forms/assets/js/beltechsoft-form.js', ['defer' => true]);
     }
 
