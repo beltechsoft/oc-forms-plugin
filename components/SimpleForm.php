@@ -3,9 +3,9 @@
 use Beltechsoft\Forms\Models\Result;
 use Beltechsoft\Forms\Models\Type;
 use Cms\Classes\ComponentBase;
-use Illuminate\Support\Facades\Request;
 use Validator;
 use October\Rain\Exception\ValidationException;
+use Event;
 /**
  * Forms Component
  *
@@ -13,7 +13,7 @@ use October\Rain\Exception\ValidationException;
  */
 class SimpleForm extends ComponentBase
 {
-    private ?Type $type = null;
+    public ?Type $type = null;
 
     public function componentDetails()
     {
@@ -36,7 +36,9 @@ class SimpleForm extends ComponentBase
 
     public function onRender()
     {
-        return $this->renderPartial($this->property('partial_form'),
+        $partial = $this->property('partial_form') ?: '@controls.htm';
+
+        return $this->renderPartial($partial,
             [
                 '__SELF__' => $this->alias,
                 'type' => $this->type,
@@ -69,6 +71,8 @@ class SimpleForm extends ComponentBase
         if ($validator->fails()){
             throw new ValidationException($validator);
         }
+
+        Event::fire('beltechsoft.form.beforeSaveResult', [&$post, $this]);
 
         $result = new Result();
         $result->fill(['type_id' => $this->type->id, 'data' => array_except($post, ['_token'])]);

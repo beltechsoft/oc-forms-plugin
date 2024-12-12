@@ -1,0 +1,25 @@
+{% for control in fields %}
+    {% if control.type == 'input:hidden' %}
+        <input class="control-input" type="hidden" placeholder="{{control.label}}" name="{{control.name}}"/>
+    {% else %}
+        <div class="form-row">
+
+            <label class="form-label {{ control.required ? '-required' : '' }}">
+                {{control.label}}
+            </label>
+            {% if control.type starts with 'input' %}
+                <input class="control-input" placeholder="{{control.label}}" name="{{control.name}}"/>
+            {% elseif control.type == 'textarea' %}
+                <textarea
+                        class="control-text"
+                        placeholder="{{control.label}}"
+                        rows="5"
+                        name="{{control.name}}"
+                ></textarea>
+            {% endif %}
+            {% if control.required %}
+                <div class="form-error" data-validate-for="{{control.name}}">Поле обязательно для заполнения</div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endfor %}

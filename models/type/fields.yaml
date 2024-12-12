@@ -59,10 +59,10 @@ secondaryTabs:
                 columns:
                     name:
                         type: string
-                        title: Имя
+                        title: Поле
                     label:
                         type: string
-                        title: Значение
+                        title: Название
                     type:
                         type: dropdown
                         title: Тип
